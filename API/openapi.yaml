@@ -1,0 +1,68 @@
+openapi: 3.0.1
+info:
+  title: Factory-api 
+  description: '공장서버는 공장에게 제품 생산을 요청하고 생산이 완료되면 입고 완료 되었다는 알림을 주는 시나리오를 위해 준비되었다. '
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: seongah.park@codestates.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.1.0
+servers:
+- url: http://factory.p3.api.codestates-devops.be:8080/api
+paths:
+  /manufacture:
+    post:
+      summary: Add a new request to manufacture a product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Manufacture'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Manufacture'
+        required: true
+      responses:
+        200:
+          description: OK
+          content: {}
+          
+components:
+  schemas:
+    Manufacture:
+      type: object
+      properties:
+        MessageGroupId:
+          type: string          
+          description: 메시지 그룹 아이디 
+          example: stock-arrival-group
+        MessageAttributeProductId:
+          type: string
+          description: 추가 생산이 필요한 제품 아이디
+          example: CP-502101
+        MessageAttributeProductCnt:
+          type: string
+          description: 추가 생산 요청 수량
+          example: 10
+        MessageAttributeFactoryId:
+          type: string
+          description: 추가 생산 요청 수량
+          example: FF-500293
+        MessageAttributeRequester:
+          type: string
+          example: 홍길동
+          description: 추가 생산 요청 담당자
+        MessageAttributeTel:
+          type: string
+          example: 010-1234-5678
+          description: 담당자 연락처
+        CallbackUrl:
+          type: string
+          description: 생산요청완료시, 공장서버가 콜백할 URL
+          example: https://rr298yy7hk.execute-api.ap-northeast-2.amazonaws.com/arrival
+
+      xml:
+        name: Order
+    

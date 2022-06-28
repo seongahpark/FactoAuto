@@ -77,3 +77,46 @@ $ terraform apply
     ```
 
 4. Factory에서 재고 생산이 완료되면 RDS에 10개의 재고가 추가로 쌓이고, 고객이 구매 요청을 보냈을 때 2번의 재고가 있는 경우의 메세지를 받을 수 있다
+
+## API
+
+> `API` Directory 하에 있는 내용입니다
+
+공장 업체로 재고 생산을 위한 요청을 할 때 사용하게 되는 API
+공장 업체와 협의되어 정리된 REST api 설명문서를 웹사이트에서 조회 할 수 있도록 `redoc-cli`를 이용하여 제작
+
+Dockerfile을 이용하여 EC2 상에 `index.html`을 업로드하여 확인 가능
+
+### How to Show API
+
+```
+# yaml 파일을 redoc-cli로 html파일로 만들어준다
+[local] $ redoc-cli build openapi.yaml
+
+# ec2를 만들고, ec2에다 Dockerfile과 만들어진 index.html을 scp를 통해 옮겨준다
+[local] $ scp -i ./pj3key.pem Dockerfile ubuntu@13.125.238.3:/home/ubuntu/Dockerfile
+[local] $ scp -i ./pj3key.pem index.html ubuntu@13.125.238.3:/home/ubuntu/index.html
+
+# ec2에 접속한다
+[ec2] $ ssh -i "pj3key.pem" ubuntu@ec2-13-125-238-3.ap-northeast-2.compute.amazonaws.com
+
+# ec2에서 docker를 설치해준다
+# https://docs.docker.com/engine/install/ubuntu/
+# 해당 레퍼런스를 보고 ubuntu에 docker 설치
+
+# ubuntu에서 sudo없이 명령어를 실행하기 위해 다음 명령어 실행
+[ec2] $ sudo groupadd docker
+[ec2] $ sudo usermod -aG docker $USER
+
+# 로컬 쉘에서 ec2의 이미지를 빌드하고 run 해준다
+[local] $ ssh -i "pj3key.pem" ubuntu@ec2-13-125-238-3.ap-northeast-2.compute.amazonaws.com 'docker build -t seongah:latest .'
+[local] $ ssh -i "pj3key.pem" ubuntu@ec2-13-125-238-3.ap-northeast-2.compute.amazonaws.com 'docker run -d -p 8081:80 seongah:latest'
+
+# 컨테이너가 실행됐는지 확인
+[local] $ ssh -i "pj3key.pem" ubuntu@ec2-13-125-238-3.ap-northeast-2.compute.amazonaws.com 'docker ps'
+
+ec2에서 보안그룹 인바운드 규칙에 8081을 설정 해줘야 한다
+
+접속은 ec2 퍼블릭 dns주소에다가 포트를 추가해야 접속 가능
+http://ec2-13-125-238-3.ap-northeast-2.compute.amazonaws.com:8081/
+```
