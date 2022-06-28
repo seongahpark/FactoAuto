@@ -64,15 +64,15 @@ $ terraform apply
 3. 재고가 없는 경우에는 SNS로 다음과 같은 형태의 메세지를 Factory에 보내게 된다
     ```
     {
-    MessageGroupId: 'stock-empty-group',
-    subject: '부산도너츠',
-    message: '재고 부족',
-    MessageAttributeProductId: 'CP-502101',
-    MessageAttributeFactoryId: 'FF-500293'
+        MessageGroupId: 'stock-empty-group',
+        subject: '부산도너츠',
+        message: '재고 부족',
+        MessageAttributeProductId: 'CP-502101',
+        MessageAttributeFactoryId: 'FF-500293'
     }
     {
-    ResponseMetadata: { RequestId: '0f04d709-0794-55b0-b46d-8ded54771137' },
-    MessageId: 'f66b9d13-4749-5c9b-895e-c7f714aa881c'
+        ResponseMetadata: { RequestId: '0f04d709-0794-55b0-b46d-8ded54771137' },
+        MessageId: 'f66b9d13-4749-5c9b-895e-c7f714aa881c'
     }
     ```
 
