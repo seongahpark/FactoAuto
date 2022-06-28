@@ -16,6 +16,8 @@
 
 ## Architecture
 
+[!Image](https://github.com/seongahpark/FactoAuto/blob/main/%08FACTOAUTO_Architecture.png)
+
 ### Scenario
 
 ```
